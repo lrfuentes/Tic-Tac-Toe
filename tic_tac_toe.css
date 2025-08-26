@@ -1,0 +1,27 @@
+body{
+    height: 99vh;
+    display: grid;
+    grid-template-rows: 1fr 8fr 1fr;
+}
+header,
+footer{
+    align-items: center;
+    justify-items: center;
+    background-color: #14bdac;
+    color: #FFF;
+}
+main{
+    width: 50%;
+    height: 50%;
+    background-color: #14bdac;
+    color: #FFF;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    place-self: center;
+}
+main div{
+    align-content: center;
+    text-align: center;
+    font-size: xx-large;
+}
