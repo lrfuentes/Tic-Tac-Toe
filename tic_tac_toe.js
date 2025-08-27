@@ -1,9 +1,27 @@
+const btn = document.querySelector('button');
 const cells = document.querySelectorAll('div');
-for(let cell of cells){
-    cell.addEventListener('click', (e) => {
-        GameboardUI.playRoundUI(e.target);
-    });
+const msg = document.querySelector('header > h2');
+btn.addEventListener('click', (e) => {
+    GameboardUI.resetGame();
+});
+function activateListener(){
+   for(let cell of cells){
+        cell.addEventListener('click', cellListener);
+    }
 }
+
+function deactivateListener(){
+    for(let cell of cells){
+        cell.removeEventListener('click', cellListener);
+    }
+}
+
+function cellListener(event){
+    GameboardUI.playRoundUI(event.target);
+}
+
+activateListener();
+
 const Gameboard = (function () {
     let gameboard = ['', '', '', '', '', '', '', '', ''];
     const winningCombinations = [ [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
@@ -55,6 +73,7 @@ const Gameboard = (function () {
             switchActivePlayer();
             return true;
         }
+        return true;
     }
 
     function restartGame(){
@@ -69,26 +88,28 @@ const Gameboard = (function () {
 })();
 const GameboardUI = (function (){
     function playRoundUI(element){
-        //.getAttribute('data-index')
         const player = Gameboard.get_active_player();
-        element.innerHTML = player.token;
-        const gameboard = Gameboard.playRound(element.getAttribute('data-index'));
-        if(gameboard != true){
-            const msg = document.querySelector('header > h2');
-            msg.textContent = gameboard;
+        if(element.innerHTML != 'X' && element.innerHTML != 'O'){
+            element.innerHTML = player.token;
+            const gameboard = Gameboard.playRound(element.getAttribute('data-index'));
+            if(gameboard != true){
+                msg.textContent = gameboard;
+                deactivateListener();
+                btn.classList.add('active');
+            }
         }
     }
-
+    function resetGame(){
+        Gameboard.restartGame();
+        for(let cell of cells){
+            cell.textContent = '';
+        }
+        btn.classList.remove('active');
+        msg.textContent = 'Playing Tic Tac Toe';
+        activateListener();
+    }
     return {
         playRoundUI,
+        resetGame
     }
 })();
-/*Gameboard.playRound(1);
-Gameboard.playRound(0);
-Gameboard.playRound(3);
-Gameboard.playRound(2);
-Gameboard.playRound(8);
-Gameboard.playRound(5);
-Gameboard.playRound(7);
-Gameboard.playRound(4);
-Gameboard.playRound(6);*/

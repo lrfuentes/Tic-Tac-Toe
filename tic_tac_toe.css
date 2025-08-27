@@ -10,6 +10,22 @@ footer{
     background-color: #14bdac;
     color: #FFF;
 }
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+header button{
+    padding: 12px;
+    border-color: #FFF;
+    border-radius: 8px;
+    background-color: #14bdac;
+    color: #FFF;
+    visibility: hidden;
+}
+header button.active{
+    visibility: visible;
+}
 main{
     width: 50%;
     height: 50%;
